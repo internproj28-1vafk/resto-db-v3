@@ -7,6 +7,7 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Computed;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use App\Services\CacheService;
 
 class ShopItems extends Component
 {
@@ -42,6 +43,7 @@ class ShopItems extends Component
     public function render()
     {
         $items = DB::table('restosuite_item_snapshots')
+            ->select('id', 'name', 'item_id', 'price', 'is_active', 'shop_id', 'created_at', 'platform_name')
             ->where('shop_id', $this->shopId)
             ->when($this->q !== '', function ($query) {
                 $query->where(function ($sub) {
